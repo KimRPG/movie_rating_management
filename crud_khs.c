@@ -91,72 +91,41 @@ int deleteMovie(Movie *s){
 }
 void saveData(Movie *p, int max){
     FILE *fp;
-    fp = fopen("Movie.txt","w");
-    // printf("%d",max);
+    fp = fopen("Movie.txt","wt");
     for (int i=0; i < max ; i++){
         if((p+i)->rating == -1) continue;
-        // char title[30],director[10], genre[10], distributor[10]; 
-        // for (int j=0; j<strlen((p+i)->title); j++) {
-        //     if ((p+i)->title[j] == ' ') {
-        //         title[j] = '_'; 
-        //     } else {
-        //         title[j] = p[i].title[j];
-        //     }
-        // }
-        // for (int j=0; j<strlen((p+i)->director); j++) {
-        //     if ((p+i)->director[j] == ' ') {
-        //         director[j] = '_'; 
-        //     } else {
-        //         director[j] = p[i].director[j];
-        //     }
-        // }
-        //         for (int j=0; j<strlen((p+i)->genre); j++) {
-        //     if ((p+i)->genre[j] == ' ') {
-        //         genre[j] = '_'; 
-        //     } else {
-        //         genre[j] = p[i].genre[j];
-        //     }
-        // }
-        //         for (int j=0; j<strlen((p+i)->distributor); j++) {
-        //     if ((p+i)->distributor[j] == ' ') {
-        //         distributor[j] = '_'; 
-        //     } else {
-        //         distributor[j] = p[i].distributor[j];
-        //     }
-        // }
-
-        fprintf(fp, "%s / %s / %s / %s / %f", (p+i)->title, (p+i)->director,(p+i)->genre,(p+i)->distributor,(p+i)->rating); 
+        fprintf(fp, "%s / %s / %s / %s / %.1f \n", (p+i)->title, (p+i)->director,(p+i)->genre,(p+i)->distributor,(p+i)->rating); 
     }
     fclose(fp);
     printf("=> 저장됨! ");
 }
-// int loadData(Movie *p){
-//     int count = 0, i = 0;
-//     FILE *fp;
-//     fp = fopen("Movie.txt", "rt");
-//      if(fp == NULL){
-//         printf("=> 파일 없음\n");
-//         return 0; 
-//     }
-//     while(!feof(fp)){ 
-//         char line[100];
-//         fgets(line, 100, fp); 
-//         if (line[0]=='\n'||(feof(fp)&&strlen(line)==0)) continue; 
-//         getchar();
-//         sscanf(line, "%s %s %s %s %f ", (p+i)->title, (p+i)->director,(p+i)->genre, (p+i)->distributor, (p+i)->rating);
 
-//         i++;
-//     }
-//     fclose(fp);
-//     printf("=> 로딩 성공!\n");
-//     return i;
-// }
+int loadData(Movie *p){
+    int count = 0, i = 0;
+    FILE *fp;
+    fp = fopen("Movie.txt", "rt");
+    if(fp == NULL){
+        printf("=> 파일 없음\n");
+        return 0; 
+    }
+    while(1){
+        char line[100];
+        if(fgets(line, 100, fp) == NULL) break;
+        if(line[0] == '\n' || line[0] == '\r') continue;
+        sscanf(line, "%[^/] / %[^/] / %[^/] / %[^/] / %.1f", (p+i)->title, (p+i)->director, (p+i)->genre, (p+i)->distributor, &(p+i)->rating);
+        i++;
+    }
+    fclose(fp);
+    printf("=> 로딩 성공!\n");
+    return i;
+}
+
 void searchMovie(Movie *s,int max){
     int scnt = 0;
     char search[20];
     printf("검색할 이름? ");
     scanf("%s", search);
-    printf("   이름 맛 분위기 가격 가성비 종류\n");
+    printf("        영화이름     감독    장르    배급사  평점\n");
     printf("===============================\n");
     for(int i =0; i <max ; i++){
         if(s[i].rating == -1) continue;
@@ -189,3 +158,39 @@ int sortMovie(Movie *p, int max){
         qsort(p,max,sizeof(Movie),compare_rating);
     return 1;
 }
+
+
+
+
+
+
+
+        // char title[30],director[10], genre[10], distributor[10]; 
+        // for (int j=0; j<strlen((p+i)->title); j++) {
+        //     if ((p+i)->title[j] == ' ') {
+        //         title[j] = '_'; 
+        //     } else {
+        //         title[j] = p[i].title[j];
+        //     }
+        // }
+        // for (int j=0; j<strlen((p+i)->director); j++) {
+        //     if ((p+i)->director[j] == ' ') {
+        //         director[j] = '_'; 
+        //     } else {
+        //         director[j] = p[i].director[j];
+        //     }
+        // }
+        //         for (int j=0; j<strlen((p+i)->genre); j++) {
+        //     if ((p+i)->genre[j] == ' ') {
+        //         genre[j] = '_'; 
+        //     } else {
+        //         genre[j] = p[i].genre[j];
+        //     }
+        // }
+        //         for (int j=0; j<strlen((p+i)->distributor); j++) {
+        //     if ((p+i)->distributor[j] == ' ') {
+        //         distributor[j] = '_'; 
+        //     } else {
+        //         distributor[j] = p[i].distributor[j];
+        //     }
+        // }

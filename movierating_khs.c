@@ -6,7 +6,7 @@ int main(void){
     Movie *s=malloc(sizeof(Movie));
     int menu;
     extern int count;
-    //count =loadData(s);
+    count =loadData(s);
     while (1){
         menu = selectMenu();
         if (menu == 0) break;
