@@ -32,7 +32,7 @@ int main(void){
             sortMovie(s,count);
         }
     }
-    printf("Á¾·áµÊ!\n");
+    printf("ì¢…ë£Œë¨!\n");
     free(s);
     return 0;
 }
